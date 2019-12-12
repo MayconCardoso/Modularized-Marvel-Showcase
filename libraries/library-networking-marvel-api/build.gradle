@@ -1,0 +1,8 @@
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation project(path: submodulesFeatures.herosDomain)
+    implementation project(path: submodulesLibraries.networking)
+
+    implementation globalDependencies.kotlinStdLib
+}

@@ -21,6 +21,7 @@ android {
 dependencies {
     implementation project(path: submodulesFeatures.herosDomain)
     implementation project(path: submodulesLibraries.networking)
+    implementation project(path: submodulesLibraries.networkingMarvel)
 
     implementation globalDependencies.kotlinStdLib
     implementation globalDependencies.kotlinCoroutinesCore

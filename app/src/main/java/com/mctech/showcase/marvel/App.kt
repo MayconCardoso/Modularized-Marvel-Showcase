@@ -1,7 +1,7 @@
 package com.mctech.showcase.marvel
 
 import android.app.Application
-import com.mctech.showcase.feature.heros.data.di.heroNetworkingModule
+import com.mctech.showcase.feature.heros.data.di.heroesDataModule
 import com.mctech.showcase.marvel.di.loggingModule
 import com.mctech.showcase.marvel.di.useCaseModules
 import org.koin.android.ext.koin.androidContext
@@ -25,7 +25,7 @@ class App : Application() {
 
                     // Libraries
                     loggingModule,
-                    heroNetworkingModule
+                    heroesDataModule
                 )
             )
         }

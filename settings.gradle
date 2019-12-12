@@ -7,6 +7,7 @@ include ':features:feature-heros-domain'
 include ':features:feature-heros'
 
 include ':libraries:library-networking'
+include ':libraries:library-networking-marvel-api'
 include ':libraries:library-logger'
 include ':libraries:library-logger-android'
 include ':libraries:library-design-system'

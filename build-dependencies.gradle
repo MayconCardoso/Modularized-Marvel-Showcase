@@ -26,6 +26,7 @@ ext {
     submodulesLibraries = [
             architecture                    : ':libraries:library-architecture',
             networking                      : ':libraries:library-networking',
+            networkingMarvel                : ':libraries:library-networking-marvel-api',
             logger                          : ':libraries:library-logger',
             loggerAndroid                   : ':libraries:library-logger-android',
             designSystem                    : ':libraries:library-design-system',
