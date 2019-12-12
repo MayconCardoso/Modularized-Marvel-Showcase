@@ -1,0 +1,33 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    defaultConfig {
+        applicationId "com.mctech.kotlinlearning"
+        versionCode 1
+        versionName "1.0"
+
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation project(path: submodulesLibraries.logger)
+    implementation project(path: submodulesLibraries.loggerAndroid)
+    implementation project(path: submodulesLibraries.networking)
+    implementation project(path: submodulesLibraries.designSystem)
+
+    implementation project(path: submodulesFeatures.heros)
+    implementation project(path: submodulesFeatures.herosData)
+    implementation project(path: submodulesFeatures.herosDomain)
+
+    implementation globalDependencies.koin
+    implementation globalDependencies.koinViewModel
+}

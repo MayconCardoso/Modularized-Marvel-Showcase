@@ -1,0 +1,9 @@
+apply plugin: 'kotlin'
+
+dependencies {
+    implementation project(path: submodulesLibraries.logger)
+
+    implementation globalDependencies.kotlinStdLib
+    implementation globalDependencies.kotlinCoroutinesCore
+    implementation globalDependencies.gson
+}

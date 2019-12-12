@@ -1,0 +1,77 @@
+ext {
+    //==============================================================================================
+    // Versions - Application
+    //==============================================================================================
+    KOTLIN_VERSION                  = '1.3.61'
+    KOTLIN_CORE_KTX                 = '1.0.2'
+    KOTLIN_COROUTINES_CORE          = '1.3.0-RC2'
+    KOTLIN_COROUTINES_ANDROID       = '1.2.1'
+
+    APP_COMPAT                      = '1.0.2'
+    CONSTRAINT_LAYOUT               = '1.1.3'
+    AC_LIFECYCLE                    = '2.2.0-alpha01'
+    KOIN                            = '2.0.1'
+    RETROFIT                        = '2.6.2'
+    OKHTTP                          = '4.2.0'
+    GSON                            = '2.8.6'
+    //==============================================================================================
+    //
+    //
+    //
+    //
+    //==============================================================================================
+    // SUBMODULES
+    //==============================================================================================
+
+    submodulesLibraries = [
+            architecture                    : ':libraries:library-architecture',
+            networking                      : ':libraries:library-networking',
+            logger                          : ':libraries:library-logger',
+            loggerAndroid                   : ':libraries:library-logger-android',
+            designSystem                    : ':libraries:library-design-system',
+    ]
+
+    submodulesFeatures = [
+            herosData                       : ':features:feature-heros-data',
+            herosDomain                     : ':features:feature-heros-domain',
+            heros                           : ':features:feature-heros',
+    ]
+    //==============================================================================================
+    //
+    //
+    //
+    //
+    //==============================================================================================
+    // Compiles - Application
+    //==============================================================================================
+    globalDependencies = [
+            // KOTLIN
+            kotlinStdLib                    : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION",
+            kotlinCoroutinesCore            : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$KOTLIN_COROUTINES_CORE",
+            kotlinCoroutinesAndroid         : "org.jetbrains.kotlinx:kotlinx-coroutines-android:$KOTLIN_COROUTINES_ANDROID",
+            kotlinCoreKTX                   : "androidx.core:core-ktx:$KOTLIN_CORE_KTX",
+
+            // VIEW
+            appCompact                      : "androidx.appcompat:appcompat:$APP_COMPAT",
+            constraintlayout                : "androidx.constraintlayout:constraintlayout:$CONSTRAINT_LAYOUT",
+
+            // ANDROID ARQ
+            lifeCycleLiveRuntime            : "androidx.lifecycle:lifecycle-runtime-ktx:$AC_LIFECYCLE",
+            lifeCycleLiveExtentions         : "androidx.lifecycle:lifecycle-extensions:$AC_LIFECYCLE",
+            lifeCycleViewModel              : "androidx.lifecycle:lifecycle-viewmodel-ktx:$AC_LIFECYCLE",
+            lifeCycleLiveData               : "androidx.lifecycle:lifecycle-livedata-ktx:$AC_LIFECYCLE",
+
+            // Koin
+            koin                            : "org.koin:koin-android:$KOIN",
+            koinScope                       : "org.koin:koin-androidx-scope:$KOIN",
+            koinViewModel                   : "org.koin:koin-androidx-viewmodel:$KOIN",
+
+            // NETWORKING
+            retrofit                        : "com.squareup.retrofit2:retrofit:$RETROFIT",
+            retrofitGsonConverter           : "com.squareup.retrofit2:converter-gson:$RETROFIT",
+            okHttp                          : "com.squareup.okhttp3:okhttp:$OKHTTP",
+            okHttpLoggin                    : "com.squareup.okhttp3:logging-interceptor:$OKHTTP",
+            gson                            : "com.google.code.gson:gson:$GSON"
+    ]
+
+}

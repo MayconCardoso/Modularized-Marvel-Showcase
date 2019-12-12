@@ -1,0 +1,35 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    def props = new Properties()
+    file("../../local.properties").withInputStream { props.load(it) }
+
+    buildTypes {
+        debug{
+            buildConfigField "String", "MarvelApiPublicKey", props.getProperty("publicKey")
+            buildConfigField "String", "MarvelApiPrivateKey", props.getProperty("privateKey")
+        }
+        release {
+            buildConfigField "String", "MarvelApiPublicKey", props.getProperty("publicKey")
+            buildConfigField "String", "MarvelApiPrivateKey", props.getProperty("privateKey")
+        }
+    }
+}
+
+dependencies {
+    implementation project(path: submodulesFeatures.herosDomain)
+    implementation project(path: submodulesLibraries.networking)
+
+    implementation globalDependencies.kotlinStdLib
+    implementation globalDependencies.kotlinCoroutinesCore
+    implementation globalDependencies.kotlinCoroutinesAndroid
+
+    implementation globalDependencies.koin
+
+    implementation globalDependencies.okHttp
+    implementation globalDependencies.okHttpLoggin
+    implementation globalDependencies.retrofit
+    implementation globalDependencies.retrofitGsonConverter
+}

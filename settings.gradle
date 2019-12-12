@@ -1,0 +1,13 @@
+rootProject.name='Marvel Show Case'
+
+include ':app'
+
+include ':features:feature-heros-data'
+include ':features:feature-heros-domain'
+include ':features:feature-heros'
+
+include ':libraries:library-networking'
+include ':libraries:library-logger'
+include ':libraries:library-logger-android'
+include ':libraries:library-design-system'
+include ':libraries:library-architecture'
