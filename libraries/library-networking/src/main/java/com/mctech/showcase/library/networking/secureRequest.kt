@@ -11,6 +11,7 @@ suspend fun <T> secureRequest(target: suspend () -> T): T = withContext(Dispatch
     try {
         target.invoke()
     } catch (incoming: Throwable) {
+        incoming.printStackTrace()
         throw NetworkErrorTransformer.transform(incoming)
     }
 }

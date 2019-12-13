@@ -1,0 +1,32 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="comic"
+            type="com.mctech.showcase.feature.heros.domain.entity.Comic" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivHero"
+            android:layout_width="100dp"
+            android:layout_height="140dp"
+            android:adjustViewBounds="true"
+            android:layout_marginStart="12dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:loadImage="@{comic.thumbnail}"
+            tools:src="@drawable/image_not_available" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

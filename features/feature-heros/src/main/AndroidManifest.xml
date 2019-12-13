@@ -1,2 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mctech.showcase.feature.heros" />
+    package="com.mctech.showcase.feature.heros">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+</manifest>

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">library-design-system</string>
+    <string name="check_your_network">Check out your network connection</string>
+    <string name="try_again">Try again</string>
 </resources>

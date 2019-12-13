@@ -1,11 +1,25 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'jacoco-android'
 
 dependencies {
-    implementation globalDependencies.kotlinStdLib
+    implementation project(path: submodulesLibraries.logger)
+
     implementation globalDependencies.kotlinCoreKTX
+
+    implementation globalDependencies.lifeCycleViewModel
+    implementation globalDependencies.lifeCycleLiveRuntime
+    implementation globalDependencies.lifeCycleLiveData
+    implementation globalDependencies.navigationFragment
+    implementation globalDependencies.navigationFragmentUi
 
     implementation globalDependencies.appCompact
     implementation globalDependencies.constraintlayout
+
+    implementation globalDependencies.koin
+    implementation globalDependencies.koinScope
+
+    testImplementation project(path: submodulesTest.sharedFeatureArq)
 }

@@ -1,6 +1,8 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'jacoco-android'
 
 dependencies {
     implementation globalDependencies.kotlinStdLib
@@ -8,4 +10,6 @@ dependencies {
 
     implementation globalDependencies.appCompact
     implementation globalDependencies.constraintlayout
+    implementation globalDependencies.recyclerView
+    implementation globalDependencies.picasso
 }

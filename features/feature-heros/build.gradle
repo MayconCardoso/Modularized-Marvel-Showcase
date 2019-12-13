@@ -1,9 +1,13 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'jacoco-android'
 
 dependencies {
     implementation project(path: submodulesFeatures.herosDomain)
+
+    implementation project(path: submodulesLibraries.logger)
     implementation project(path: submodulesLibraries.architecture)
     implementation project(path: submodulesLibraries.designSystem)
 
@@ -20,4 +24,8 @@ dependencies {
 
     implementation globalDependencies.appCompact
     implementation globalDependencies.constraintlayout
+    implementation globalDependencies.recyclerView
+
+    testImplementation project(path: submodulesTest.sharedFeatureArq)
+    testImplementation project(path: submodulesTest.dataFactory)
 }

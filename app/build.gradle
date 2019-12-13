@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'jacoco-android'
 
 android {
     defaultConfig {
@@ -20,9 +21,10 @@ android {
 
 dependencies {
     implementation project(path: submodulesLibraries.logger)
-    implementation project(path: submodulesLibraries.loggerAndroid)
     implementation project(path: submodulesLibraries.networking)
+    implementation project(path: submodulesLibraries.architecture)
     implementation project(path: submodulesLibraries.designSystem)
+    implementation project(path: submodulesLibraries.loggerAndroid)
 
     implementation project(path: submodulesFeatures.heros)
     implementation project(path: submodulesFeatures.herosData)
@@ -30,4 +32,9 @@ dependencies {
 
     implementation globalDependencies.koin
     implementation globalDependencies.koinViewModel
+
+    implementation globalDependencies.navigationFragment
+    implementation globalDependencies.navigationFragmentUi
+
+    implementation globalDependencies.appCompact
 }

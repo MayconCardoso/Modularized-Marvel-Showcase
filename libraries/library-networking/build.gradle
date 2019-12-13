@@ -1,4 +1,5 @@
 apply plugin: 'kotlin'
+apply plugin: 'jacoco'
 
 dependencies {
     implementation globalDependencies.kotlinStdLib
@@ -7,4 +8,7 @@ dependencies {
     implementation globalDependencies.okHttp
     implementation globalDependencies.retrofit
     implementation globalDependencies.retrofitGsonConverter
+
+    testImplementation globalTestDependencies.jUnit
+    testImplementation globalTestDependencies.assertJ
 }

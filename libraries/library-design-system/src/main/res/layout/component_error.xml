@@ -1,0 +1,23 @@
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/DesignSystemTheme.CenteredContent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/DesignSystemTheme.TextViewLarge.Bold"
+            android:layout_width="wrap_content"
+            android:text="@string/check_your_network"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btRetry"
+            style="@style/DesignSystemTheme.PrimaryButton.Bold"
+            android:text="@string/try_again"
+            android:elevation="0dp"
+            android:layout_marginTop="24dp"/>
+
+    </LinearLayout>
+</layout>

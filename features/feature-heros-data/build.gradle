@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'jacoco-android'
 
 android {
     def props = new Properties()
@@ -33,4 +34,11 @@ dependencies {
     implementation globalDependencies.okHttpLoggin
     implementation globalDependencies.retrofit
     implementation globalDependencies.retrofitGsonConverter
+
+    testImplementation project(path: submodulesTest.dataFactory)
+    testImplementation globalTestDependencies.jUnit
+    testImplementation globalTestDependencies.assertJ
+    testImplementation globalTestDependencies.coroutines
+    testImplementation globalTestDependencies.mockitoKotlin
+    testImplementation globalTestDependencies.testArqCor
 }

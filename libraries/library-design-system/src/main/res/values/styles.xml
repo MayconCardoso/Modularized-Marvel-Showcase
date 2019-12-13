@@ -1,7 +1,19 @@
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+    <style name="DesignSystemTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionModeOverlay">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+
+        <item name="android:windowBackground">@color/colorPrimaryLight</item>
+
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="DesignSystemTheme.CenteredContent" parent="">
+        <item name="android:padding">@dimen/defaultContentPadding</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

@@ -1,6 +1,7 @@
 package com.mctech.showcase.feature.heros.data.repository
 
 import com.mctech.showcase.feature.heros.data.datasource.HeroDataSource
+import com.mctech.showcase.feature.heros.domain.entity.Comic
 import com.mctech.showcase.feature.heros.domain.entity.Hero
 import com.mctech.showcase.feature.heros.domain.service.HeroService
 
@@ -14,7 +15,9 @@ class HeroRepository(private val dataSource: HeroDataSource) : HeroService {
             currentPagingOffset = response.count
             hasLoadedAllHeroes = false
 
-            response.results
+            response.results.apply {
+                hasLoadedAllHeroes = isEmpty()
+            }
         }
     }
 
@@ -32,5 +35,9 @@ class HeroRepository(private val dataSource: HeroDataSource) : HeroService {
                 hasLoadedAllHeroes = isEmpty()
             }
         }
+    }
+
+    override suspend fun loadComicsOfHero(hero: Hero): List<Comic> {
+        return dataSource.loadComicsOfHero(hero).results
     }
 }

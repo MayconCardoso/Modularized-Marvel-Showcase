@@ -1,0 +1,30 @@
+<resources>
+
+    <style name="DesignSystemTheme.TextViewPrimary" parent="">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/textSizeNormal</item>
+    </style>
+
+    <style name="DesignSystemTheme.TextViewPrimary.Bold" parent="DesignSystemTheme.TextViewPrimary">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DesignSystemTheme.TextViewLarge" parent="">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/textSizeLarge</item>
+    </style>
+
+    <style name="DesignSystemTheme.TextViewLarge.Bold" parent="DesignSystemTheme.TextViewLarge">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DesignSystemTheme.TextViewSmall" parent="">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/textSizeSmall</item>
+    </style>
+
+    <style name="DesignSystemTheme.TextViewSmall.Bold" parent="DesignSystemTheme.TextViewSmall">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>
