@@ -17,11 +17,9 @@ import com.mctech.showcase.feature.heros.databinding.FragmentListHeroesBinding
 import com.mctech.showcase.feature.heros.databinding.ListItemHeroBinding
 import com.mctech.showcase.feature.heros.domain.entity.Hero
 import com.mctech.showcase.library.design_system.extentions.*
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HeroListFragment : Fragment() {
     private lateinit var binding: FragmentListHeroesBinding
@@ -30,7 +28,7 @@ class HeroListFragment : Fragment() {
     private val navigator : HeroNavigation by inject()
 
     private val loadNextPageScrollMonitor = LoadNextPageScrollMonitor{
-        heroViewModel.interact(HeroViewInteraction.LoadNextPage)
+        heroViewModel.interact(HeroViewInteraction.LoadNextPageOfHeroes)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?) : View {
@@ -50,7 +48,7 @@ class HeroListFragment : Fragment() {
             heroViewModel.reprocessLastInteraction()
         }
         binding.swipeRefreshLayout.setOnRefreshListener {
-            heroViewModel.interact(HeroViewInteraction.LoadFirstPage)
+            heroViewModel.interact(HeroViewInteraction.LoadFirstPageOfHeroes)
         }
     }
 
@@ -65,7 +63,7 @@ class HeroListFragment : Fragment() {
         when (state) {
 
             is ComponentState.Initializing -> {
-                heroViewModel.interact(HeroViewInteraction.LoadFirstPage)
+                heroViewModel.interact(HeroViewInteraction.LoadFirstPageOfHeroes)
             }
 
             is ComponentState.Loading -> {

@@ -10,19 +10,22 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mctech.showcase.architecture.ComponentState
 import com.mctech.showcase.architecture.extention.bindState
+import com.mctech.showcase.feature.heros.HeroViewInteraction
 import com.mctech.showcase.feature.heros.HeroViewModel
 import com.mctech.showcase.feature.heros.databinding.FragmentHeroDetaisBinding
 import com.mctech.showcase.feature.heros.databinding.ListItemComicBinding
 import com.mctech.showcase.feature.heros.domain.entity.Comic
-import com.mctech.showcase.library.design_system.extentions.createDefaultRecyclerView
-import com.mctech.showcase.library.design_system.extentions.refreshItems
+import com.mctech.showcase.library.design_system.extentions.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HeroDetailFragment : Fragment(){
     private lateinit var binding: FragmentHeroDetaisBinding
 
     private val heroViewModel: HeroViewModel by sharedViewModel()
+    private val loadNextPageScrollMonitor = LoadNextPageScrollMonitor{
+        heroViewModel.interact(HeroViewInteraction.LoadNextPageOfComics)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,11 +48,27 @@ class HeroDetailFragment : Fragment(){
         binding.containerError.setOnClickListener{
             heroViewModel.reprocessLastInteraction()
         }
+        binding.listComics.addOnScrollListener(loadNextPageScrollMonitor)
+    }
+
+
+    override fun onDestroyView() {
+        binding.listComics.removeOnScrollListener(loadNextPageScrollMonitor)
+        super.onDestroyView()
     }
 
     private fun renderScreen(state: ComponentState<List<Comic>>) {
+        hideProgress()
+
         when(state){
+            is ComponentState.Loading -> {
+                binding.progressLoading.visibility = if(thereIsNoItemOnList()) View.VISIBLE else View.GONE
+                binding.loadingPager.animateHideByState(thereIsNoItemOnList())
+            }
+
             is ComponentState.Success -> {
+                binding.listComics.visibility = View.VISIBLE
+
                 // Create first list.
                 if(thereIsNoItemOnList()){
                     createListOfComics(state.result)
@@ -83,6 +102,11 @@ class HeroDetailFragment : Fragment(){
             override fun areContentsTheSame(left: Comic, right: Comic) = left.thumbnail == right.thumbnail
         }
     )
+
+    private fun hideProgress() {
+        binding.progressLoading.visibility = View.GONE
+        binding.loadingPager.animateHide()
+    }
 
     private fun thereIsNoItemOnList(): Boolean {
         return binding.listComics.adapter == null
