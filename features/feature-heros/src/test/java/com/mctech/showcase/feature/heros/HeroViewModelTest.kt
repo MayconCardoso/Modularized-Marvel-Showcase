@@ -75,7 +75,7 @@ class HeroViewModelTest : BaseViewModelTest() {
 
                 it.assertCount(3)
                 it.assertAtPosition(0).isEqualTo(ComponentState.Initializing)
-                it.assertAtPosition(1).isEqualTo(ComponentState.Loading)
+                it.assertAtPosition(1).isEqualTo(ComponentState.Loading.FromEmpty)
                 it.assertAtPosition(2).isExactlyInstanceOf(ComponentState.Success::class.java)
 
                 Assertions.assertThat(successValue.result.heroes).isEqualTo(expectationHeroes)
@@ -102,7 +102,7 @@ class HeroViewModelTest : BaseViewModelTest() {
 
                 it.assertCount(3)
                 it.assertAtPosition(0).isEqualTo(ComponentState.Initializing)
-                it.assertAtPosition(1).isEqualTo(ComponentState.Loading)
+                it.assertAtPosition(1).isEqualTo(ComponentState.Loading.FromEmpty)
                 it.assertAtPosition(2).isExactlyInstanceOf(ComponentState.Success::class.java)
 
                 Assertions.assertThat(successValue.result.heroes).isEqualTo(expectationHeroes)
@@ -157,7 +157,7 @@ class HeroViewModelTest : BaseViewModelTest() {
 
                 it.assertCount(3)
                 it.assertAtPosition(0).isEqualTo(ComponentState.Initializing)
-                it.assertAtPosition(1).isEqualTo(ComponentState.Loading)
+                it.assertAtPosition(1).isEqualTo(ComponentState.Loading.FromEmpty)
                 it.assertAtPosition(2).isExactlyInstanceOf(ComponentState.Success::class.java)
 
                 Assertions.assertThat(successValue.result).isEqualTo(expectationComics)
@@ -190,9 +190,9 @@ class HeroViewModelTest : BaseViewModelTest() {
 
                 it.assertCount(5)
                 it.assertAtPosition(0).isEqualTo(ComponentState.Initializing)
-                it.assertAtPosition(1).isEqualTo(ComponentState.Loading)
+                it.assertAtPosition(1).isEqualTo(ComponentState.Loading.FromEmpty)
                 it.assertAtPosition(2).isExactlyInstanceOf(ComponentState.Success::class.java)
-                it.assertAtPosition(3).isEqualTo(ComponentState.Loading)
+                it.assertAtPosition(3).isEqualTo(ComponentState.Loading.FromEmpty)
                 it.assertAtPosition(4).isExactlyInstanceOf(ComponentState.Success::class.java)
 
                 Assertions.assertThat(successValue.result).isEqualTo(expectationComics)
