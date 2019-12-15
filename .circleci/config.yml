@@ -32,8 +32,12 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
       - run:
-          name: Run Tests
-          command: ./gradlew test
+          name: Generate all unit test reports
+          command: ./gradlew clean jacocoTestReport jacocoTestReportDebug --no-daemon
+          
+      - run:
+          name: Submit Code Coverage results to codecov.io
+          command: bash <(curl -s https://codecov.io/bash)
 
       - store_artifacts:
           path: app/build/reports
@@ -43,11 +47,3 @@ jobs:
 
       - store_artifacts:
           path: app/build/reports
-
-      - run:
-          name: Run Code Coverage
-          command: ./gradlew build jacocoTestReport
-
-      - run:
-          name: Submit Code Coverage results to codecov.io
-          command: bash <(curl -s https://codecov.io/bash)

@@ -1,10 +1,12 @@
 package com.mctech.showcase.feature.heros.domain.entity
 
 import com.mctech.testing.data_factory.TestDataFactory
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 class HeroTest {
     @Test
     fun `should return heros`() = runBlockingTest {
