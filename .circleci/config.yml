@@ -13,8 +13,12 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
       - run:
-          name: Store Security API Key
-          command: echo $MARVEL_API_KEY > local.properties
+          name: Store Marvel Public Key
+          command: echo "publicKey=$MARVEL_PUBLIC_KEY" >> ~/repo/local.properties
+
+      - run:
+          name: Store Marvel Private Key
+          command: echo "privateKey=$MARVEL_PRIVATE_KEY" >> ~/repo/local.properties
 
       - run:
           name: Download Dependencies
