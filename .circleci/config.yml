@@ -13,6 +13,10 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
       - run:
+          name: Store Security API Key
+          command: echo $MARVEL_API_KEY > local.properties
+
+      - run:
           name: Download Dependencies
           command: |
             sudo chmod +x ./gradlew
