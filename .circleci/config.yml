@@ -14,11 +14,11 @@ jobs:
 
       - run:
           name: Store Marvel Public Key
-          command: echo "publicKey=$MARVEL_PUBLIC_KEY" >> ~/repo/local.properties
+          command: echo "publicKey=$MARVEL_PUBLIC_KEY" >> ~/code/local.properties
 
       - run:
           name: Store Marvel Private Key
-          command: echo "privateKey=$MARVEL_PRIVATE_KEY" >> ~/repo/local.properties
+          command: echo "privateKey=$MARVEL_PRIVATE_KEY" >> ~/code/local.properties
 
       - run:
           name: Download Dependencies
