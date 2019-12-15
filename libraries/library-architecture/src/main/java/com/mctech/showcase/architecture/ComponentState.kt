@@ -10,7 +10,13 @@ package com.mctech.showcase.architecture
  */
 sealed class ComponentState<out T> {
     object Initializing : ComponentState<Nothing>()
-    object Loading : ComponentState<Nothing>()
+
+    sealed class Loading : ComponentState<Nothing>(){
+        object FromEmpty : Loading()
+        object FromData  : Loading()
+    }
+
+
     data class Error(val reason: Throwable) : ComponentState<Nothing>()
     data class Success<T>(val result: T) : ComponentState<T>()
 }

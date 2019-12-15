@@ -58,17 +58,8 @@ class HeroDetailFragment : Fragment(){
     }
 
     private fun renderScreen(state: ComponentState<List<Comic>>) {
-        hideProgress()
-
         when(state){
-            is ComponentState.Loading -> {
-                binding.progressLoading.visibility = if(thereIsNoItemOnList()) View.VISIBLE else View.GONE
-                binding.loadingPager.animateHideByState(thereIsNoItemOnList())
-            }
-
             is ComponentState.Success -> {
-                binding.listComics.visibility = View.VISIBLE
-
                 // Create first list.
                 if(thereIsNoItemOnList()){
                     createListOfComics(state.result)
@@ -102,11 +93,6 @@ class HeroDetailFragment : Fragment(){
             override fun areContentsTheSame(left: Comic, right: Comic) = left.thumbnail == right.thumbnail
         }
     )
-
-    private fun hideProgress() {
-        binding.progressLoading.visibility = View.GONE
-        binding.loadingPager.animateHide()
-    }
 
     private fun thereIsNoItemOnList(): Boolean {
         return binding.listComics.adapter == null

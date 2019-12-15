@@ -120,7 +120,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="32dp"
-                android:visibility="visible"
+                app:showOnLoadingFromEmpty="@{viewModel.comicHero}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -138,7 +138,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/labelComics"
-                app:hideOnError="@{viewModel.comicHero}"
+                app:showOnSuccessOrWithData="@{viewModel.comicHero}"
                 tools:itemCount="15"
                 android:visibility="gone"
                 tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -157,9 +157,9 @@
                     android:id="@+id/loadingPager"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
+                    app:showOnLoadingFromData="@{viewModel.comicHero}"
                     android:layout_marginEnd="6dp"
-                    android:layout_gravity="center_vertical|end"
-                    android:visibility="gone" />
+                    android:layout_gravity="center_vertical|end" />
             </FrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

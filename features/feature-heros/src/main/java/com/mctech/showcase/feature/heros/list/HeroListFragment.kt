@@ -16,7 +16,9 @@ import com.mctech.showcase.feature.heros.HeroViewModel
 import com.mctech.showcase.feature.heros.databinding.FragmentListHeroesBinding
 import com.mctech.showcase.feature.heros.databinding.ListItemHeroBinding
 import com.mctech.showcase.feature.heros.domain.entity.Hero
-import com.mctech.showcase.library.design_system.extentions.*
+import com.mctech.showcase.library.design_system.extentions.LoadNextPageScrollMonitor
+import com.mctech.showcase.library.design_system.extentions.createDefaultRecyclerView
+import com.mctech.showcase.library.design_system.extentions.refreshItems
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -58,23 +60,12 @@ class HeroListFragment : Fragment() {
     }
 
     private fun renderScreen(state: ComponentState<HeroListState>) {
-        hideProgress()
-
         when (state) {
-
             is ComponentState.Initializing -> {
                 heroViewModel.interact(HeroViewInteraction.LoadFirstPageOfHeroes)
             }
 
-            is ComponentState.Loading -> {
-                binding.progressLoading.visibility = if(thereIsNoItemOnList()) View.VISIBLE else View.GONE
-                binding.bottomLoadingPager.animateHideByState(thereIsNoItemOnList())
-            }
-
             is ComponentState.Success -> {
-                binding.swipeRefreshLayout.visibility = View.VISIBLE
-                binding.swipeRefreshLayout.isRefreshing = false
-
                 // Create first list.
                 if(thereIsNoItemOnList()){
                     createListOfHeroes(state.result)
@@ -87,11 +78,6 @@ class HeroListFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun hideProgress() {
-        binding.progressLoading.visibility = View.GONE
-        binding.bottomLoadingPager.animateHide()
     }
 
     private fun createListOfHeroes(result: HeroListState) = createDefaultRecyclerView<Hero, ListItemHeroBinding>(

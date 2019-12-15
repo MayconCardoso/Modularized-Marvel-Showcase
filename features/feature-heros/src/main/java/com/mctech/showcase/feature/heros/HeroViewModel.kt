@@ -77,7 +77,7 @@ class HeroViewModel(
     ) {
         viewModelScope.launch {
             // Show loading on component.
-            _heroesComponent.value = ComponentState.Loading
+            _heroesComponent.value = heroPagination.loadingState()
 
             // Fetch heroes by calling the use case.
             when (val heroesResult = loaderAgent.invoke()) {
@@ -119,7 +119,7 @@ class HeroViewModel(
     ) {
         viewModelScope.launch {
             // Show loading on component.
-            _comicHero.value = ComponentState.Loading
+            _comicHero.value = comicPagination.loadingState()
 
             // Fetch comics by calling the use case.
             when (val comicsResult = loaderAgent.invoke()) {
