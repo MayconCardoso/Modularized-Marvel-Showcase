@@ -8,8 +8,8 @@ This is a simple [Marvel](https://developer.marvel.com/) Single Activity applica
 In order to avoid writing architecture boilerplate I have used one of my personal libraries: [ArchitectureBoilerplateGenerator](https://github.com/MayconCardoso/ArchitectureBoilerplateGenerator)
 
 ## Setup
-
-On your ```local.properties``` file, create these two variables with your marvel api credentions.
+- Create an account on [Marvel Developer Console](https://developer.marvel.com/)
+- On your ```local.properties``` file, create these two variables and fill it up with your marvel api credentions.
 
 ```
 publicKey = "YOUR_PUBLIC_KEY"
