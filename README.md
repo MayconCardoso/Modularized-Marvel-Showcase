@@ -5,6 +5,8 @@ Modularized Clean Code Marvel Showcase
 
 This is a simple [Marvel](https://developer.marvel.com/) Single Activity application show case. It has been structured in a multi-module fashion, with semantics guided by Clean Architecture; this means that high-level modules don't know anything about low-level ones.
 
+In order to avoid writing architecture boilerplate I have used one of my personal libraries: [ArchitectureBoilerplateGenerator](https://github.com/MayconCardoso/ArchitectureBoilerplateGenerator)
+
 ## Setup
 
 On your ```local.properties``` file, create these two variables with your marvel api credentions.
