@@ -16,6 +16,8 @@ interface HeroRetrofitApi {
 
     @GET("characters/{characterId}/comics")
     suspend fun getComicsOfSpecificHero(
-        @Path("characterId") characterId: Long
+        @Path("characterId") characterId: Long,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
     ): MarvelApiResponse<Data<List<ComicsResponse>>>
 }

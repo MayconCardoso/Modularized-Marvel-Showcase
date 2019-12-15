@@ -4,7 +4,8 @@ import com.mctech.showcase.architecture.UserInteraction
 import com.mctech.showcase.feature.heros.domain.entity.Hero
 
 sealed class HeroViewInteraction : UserInteraction {
-    object LoadFirstPage : HeroViewInteraction()
-    object LoadNextPage : HeroViewInteraction()
+    object LoadFirstPageOfHeroes : HeroViewInteraction()
+    object LoadNextPageOfHeroes : HeroViewInteraction()
     data class LoadDetails(val item: Hero) : HeroViewInteraction()
+    object LoadNextPageOfComics : HeroViewInteraction()
 }

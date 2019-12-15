@@ -6,24 +6,23 @@ import androidx.lifecycle.viewModelScope
 import com.mctech.showcase.architecture.BaseViewModel
 import com.mctech.showcase.architecture.ComponentState
 import com.mctech.showcase.architecture.UserInteraction
+import com.mctech.showcase.architecture.components.PaginatedComponent
 import com.mctech.showcase.feature.heros.domain.entity.Comic
 import com.mctech.showcase.feature.heros.domain.entity.Hero
-import com.mctech.showcase.feature.heros.domain.interactions.LoadComicsOfHeroCase
-import com.mctech.showcase.feature.heros.domain.interactions.LoadFirstPageOfHeroesCase
-import com.mctech.showcase.feature.heros.domain.interactions.LoadNextPageOfHeroesCase
-import com.mctech.showcase.feature.heros.domain.interactions.Result
+import com.mctech.showcase.feature.heros.domain.interactions.*
 import com.mctech.showcase.feature.heros.list.HeroListState
 import kotlinx.coroutines.launch
 
 class HeroViewModel(
-    private val loadFirstPageOfHeroesCase: LoadFirstPageOfHeroesCase,
+    private val loadHeroesCase: LoadHeroesCase,
     private val loadNextPageOfHeroesCase: LoadNextPageOfHeroesCase,
-    private val loadComicsOfHeroCase: LoadComicsOfHeroCase
+    private val loadComicsOfHeroCase: LoadComicsOfHeroCase,
+    private val loadNexPageComicsOfHeroCase: LoadNexPageComicsOfHeroCase
 ) : BaseViewModel() {
 
     // To control the pagination.
-    private var currentListOfHeroes = mutableListOf<Hero>()
-    private var isLoadingNextPage   = false
+    private var heroPagination = PaginatedComponent<Hero>()
+    private var comicPagination = PaginatedComponent<Comic>()
 
     // LiveData to storage the list state.
     private val _heroesComponent = MutableLiveData<ComponentState<HeroListState>>(ComponentState.Initializing)
@@ -35,49 +34,39 @@ class HeroViewModel(
 
     override suspend fun handleUserInteraction(interaction: UserInteraction) {
         when (interaction) {
-            is HeroViewInteraction.LoadFirstPage    -> loadFistPageOfHeroesInteraction()
-            is HeroViewInteraction.LoadNextPage     -> loadNextPageOfHeroesInteraction()
-            is HeroViewInteraction.LoadDetails      -> loadHeroDetailsInteraction(interaction.item)
+            is HeroViewInteraction.LoadFirstPageOfHeroes    -> loadFistPageOfHeroesInteraction()
+            is HeroViewInteraction.LoadNextPageOfHeroes     -> loadNextPageOfHeroesInteraction()
+            is HeroViewInteraction.LoadDetails              -> loadHeroDetailsInteraction(interaction.item)
+            is HeroViewInteraction.LoadNextPageOfComics     -> loadNextPageOfComicsInteraction()
         }
     }
 
     private fun loadFistPageOfHeroesInteraction() = internalHeroesFetcher(true, mutableListOf()) {
-        loadFirstPageOfHeroesCase.execute()
+        loadHeroesCase.execute()
     }
 
-    private fun loadNextPageOfHeroesInteraction() = synchronized(isLoadingNextPage) {
-        // It is already loading the next page.
-        // So in order to do not waste user's resources it just return the computation.
-        if (isLoadingNextPage) return
+    private fun loadNextPageOfHeroesInteraction() = synchronized(heroPagination.isLoadingNextPage) {
+        if (heroPagination.isLoadingNextPage) return
 
-        isLoadingNextPage = true
-        internalHeroesFetcher(false, currentListOfHeroes) {
+        heroPagination.isLoadingNextPage = true
+        internalHeroesFetcher(false, heroPagination.currentList) {
             loadNextPageOfHeroesCase.execute()
         }
     }
 
-    private suspend fun loadHeroDetailsInteraction(item: Hero) {
+    private fun loadHeroDetailsInteraction(item: Hero) {
         selectedHero = item
+        internalComicsFetcher(mutableListOf()){
+            loadComicsOfHeroCase.execute(item)
+        }
+    }
 
-        // Show loading on component.
-        _comicHero.value = ComponentState.Loading
+    private fun loadNextPageOfComicsInteraction() = synchronized(comicPagination.isLoadingNextPage){
+        if (comicPagination.isLoadingNextPage) return
 
-        // Fetch heroes by calling the use case.
-        when (val comicsResult = loadComicsOfHeroCase.execute(item)) {
-
-            // Success when fetching heroes
-            is Result.Success -> {
-                // Update screen
-                _comicHero.value = ComponentState.Success(
-                    comicsResult.result
-                )
-            }
-
-            // Failure when fetching heroes
-            is Result.Failure -> comicsResult.throwable.apply {
-                logger.e(message.orEmpty(), this)
-                _comicHero.value = ComponentState.Error(this)
-            }
+        comicPagination.isLoadingNextPage = true
+        internalComicsFetcher(comicPagination.currentList) {
+            loadNexPageComicsOfHeroCase.execute(selectedHero)
         }
     }
 
@@ -96,7 +85,7 @@ class HeroViewModel(
                 // Success when fetching heroes
                 is Result.Success -> {
                     // Merge the lists in order to add the next page on the previous one.
-                    currentListOfHeroes = mutableListOf<Hero>().apply {
+                    heroPagination.currentList = mutableListOf<Hero>().apply {
                         addAll(currentList)
                         addAll(heroesResult.result)
                     }
@@ -104,7 +93,7 @@ class HeroViewModel(
                     // Update screen
                     _heroesComponent.value = ComponentState.Success(
                         HeroListState(
-                            currentListOfHeroes,
+                            heroPagination.currentList,
                             moveListToTop
                         )
                     )
@@ -118,8 +107,47 @@ class HeroViewModel(
             }
 
             // Release the loading control block.
-            synchronized(isLoadingNextPage) {
-                isLoadingNextPage = false
+            synchronized(heroPagination.isLoadingNextPage) {
+                heroPagination.isLoadingNextPage = false
+            }
+        }
+    }
+
+    private fun internalComicsFetcher(
+        currentList: List<Comic>,
+        loaderAgent: suspend () -> Result<List<Comic>>
+    ) {
+        viewModelScope.launch {
+            // Show loading on component.
+            _comicHero.value = ComponentState.Loading
+
+            // Fetch comics by calling the use case.
+            when (val comicsResult = loaderAgent.invoke()) {
+
+                // Success when fetching heroes
+                is Result.Success -> {
+                    // Merge the lists in order to add the next page on the previous one.
+                    comicPagination.currentList = mutableListOf<Comic>().apply {
+                        addAll(currentList)
+                        addAll(comicsResult.result)
+                    }
+
+                    // Update screen
+                    _comicHero.value = ComponentState.Success(
+                        comicPagination.currentList
+                    )
+                }
+
+                // Failure when fetching heroes
+                is Result.Failure -> comicsResult.throwable.apply {
+                    logger.e(message.orEmpty(), this)
+                    _comicHero.value = ComponentState.Error(this)
+                }
+            }
+
+            // Release the loading control block.
+            synchronized(comicPagination.isLoadingNextPage) {
+                comicPagination.isLoadingNextPage = false
             }
         }
     }

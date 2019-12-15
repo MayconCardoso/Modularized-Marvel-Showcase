@@ -11,27 +11,29 @@ import org.assertj.core.api.Assertions
 import org.junit.Before
 import org.junit.Test
 
+/**
+ * @author MAYCON CARDOSO on 2019-12-15.
+ */
 @ExperimentalCoroutinesApi
-class LoadComicsOfHeroCaseTest{
+class LoadNexPageComicsOfHeroCaseTest {
     private val service = mock<HeroService>()
+    private lateinit var loadNexPageComicsOfHeroCase: LoadNexPageComicsOfHeroCase
     private val hero = TestDataFactory.createHero(
         id = 10
     )
 
-    private lateinit var loadComicsOfHeroCase: LoadComicsOfHeroCase
-
     @Before
     fun `before each test`() {
-        loadComicsOfHeroCase = LoadComicsOfHeroCase(service)
+        loadNexPageComicsOfHeroCase = LoadNexPageComicsOfHeroCase(service)
     }
 
     @Test
     fun `should return comics`() = runBlockingTest {
         val expectedValue = TestDataFactory.createListOfComic()
 
-        whenever(service.loadFirstPageComicsOfHero(hero)).thenReturn(expectedValue)
+        whenever(service.loadNextPageComicsOfHero(hero)).thenReturn(expectedValue)
 
-        val result = loadComicsOfHeroCase.execute(hero)
+        val result = loadNexPageComicsOfHeroCase.execute(hero)
 
         Assertions.assertThat(result)
             .isExactlyInstanceOf(Result.Success::class.java)
@@ -58,12 +60,13 @@ class LoadComicsOfHeroCaseTest{
 
     private fun failureAssertion(exception: Throwable, expectedException: Exception) =
         runBlockingTest {
-            whenever(service.loadFirstPageComicsOfHero(hero)).thenThrow(exception)
+            whenever(service.loadNextPageComicsOfHero(hero)).thenThrow(exception)
 
-            val result = loadComicsOfHeroCase.execute(hero)
+            val result = loadNexPageComicsOfHeroCase.execute(hero)
             val resultException = (result as Result.Failure).throwable
 
             Assertions.assertThat(result).isInstanceOf(Result.Failure::class.java)
             Assertions.assertThat(resultException).isEqualTo(expectedException)
         }
+
 }

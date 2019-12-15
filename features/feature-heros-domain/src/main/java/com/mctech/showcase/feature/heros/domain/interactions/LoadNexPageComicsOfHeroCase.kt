@@ -6,9 +6,9 @@ import com.mctech.showcase.feature.heros.domain.error.ComicError
 import com.mctech.showcase.feature.heros.domain.error.NetworkException
 import com.mctech.showcase.feature.heros.domain.service.HeroService
 
-class LoadComicsOfHeroCase(private val service : HeroService){
-    suspend fun execute(hero : Hero): Result<List<Comic>> = try {
-        Result.Success(service.loadFirstPageComicsOfHero(hero))
+class LoadNexPageComicsOfHeroCase(private val service: HeroService) {
+    suspend fun execute(hero: Hero): Result<List<Comic>> = try {
+        Result.Success(service.loadNextPageComicsOfHero(hero))
     } catch (error: Exception) {
         Result.Failure(
             if (error is NetworkException) error

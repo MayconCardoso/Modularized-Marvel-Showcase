@@ -40,7 +40,6 @@
             android:id="@+id/containerError"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,7 +60,7 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="@drawable/shape_dark_gradient_text"
+            android:background="@drawable/shape_dark_gradient_text_90_degres"
             android:padding="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

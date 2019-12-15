@@ -6,5 +6,5 @@ import com.mctech.showcase.library.networking.marvel.api.Data
 
 interface HeroDataSource {
     suspend fun loadHeroes(pageOffset: Int, countOfItems: Int = 10): Data<List<Hero>>
-    suspend fun loadComicsOfHero(hero: Hero): Data<List<Comic>>
+    suspend fun loadComicsOfHero(hero: Hero, pageOffset: Int, countOfItems: Int = 15): Data<List<Comic>>
 }

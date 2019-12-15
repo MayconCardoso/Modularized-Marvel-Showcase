@@ -1,0 +1,9 @@
+<shape android:shape="ring"
+    android:thickness="4dp"
+    android:useLevel="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <gradient
+        android:startColor="@color/colorAccent"
+        android:endColor="@color/background"/>
+</shape>

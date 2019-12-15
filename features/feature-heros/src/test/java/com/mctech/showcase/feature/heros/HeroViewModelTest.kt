@@ -2,13 +2,9 @@ package com.mctech.showcase.feature.heros
 
 import com.mctech.showcase.architecture.ComponentState
 import com.mctech.showcase.feature.heros.domain.entity.Comic
-import com.mctech.showcase.feature.heros.domain.entity.Hero
 import com.mctech.showcase.feature.heros.domain.error.ComicError
 import com.mctech.showcase.feature.heros.domain.error.HeroError
-import com.mctech.showcase.feature.heros.domain.interactions.LoadComicsOfHeroCase
-import com.mctech.showcase.feature.heros.domain.interactions.LoadFirstPageOfHeroesCase
-import com.mctech.showcase.feature.heros.domain.interactions.LoadNextPageOfHeroesCase
-import com.mctech.showcase.feature.heros.domain.interactions.Result
+import com.mctech.showcase.feature.heros.domain.interactions.*
 import com.mctech.showcase.feature.heros.list.HeroListState
 import com.mctech.testing.architecture.BaseViewModelTest
 import com.mctech.testing.architecture.extention.*
@@ -28,16 +24,18 @@ class HeroViewModelTest : BaseViewModelTest() {
         id = 10
     )
 
-    private val loadFirstPageOfHeroesCase = mock<LoadFirstPageOfHeroesCase>()
+    private val loadFirstPageOfHeroesCase = mock<LoadHeroesCase>()
     private val loadNextPageOfHeroesCase = mock<LoadNextPageOfHeroesCase>()
     private val loadComicsOfHeroCase = mock<LoadComicsOfHeroCase>()
+    private val loadNexPageComicsOfHeroCase = mock<LoadNexPageComicsOfHeroCase>()
 
     @Before
     fun `before each test`() {
         viewModel = HeroViewModel(
             loadFirstPageOfHeroesCase,
             loadNextPageOfHeroesCase,
-            loadComicsOfHeroCase
+            loadComicsOfHeroCase,
+            loadNexPageComicsOfHeroCase
         )
     }
 
@@ -70,7 +68,7 @@ class HeroViewModelTest : BaseViewModelTest() {
                 )
             },
             action = {
-                viewModel.interact(HeroViewInteraction.LoadFirstPage)
+                viewModel.interact(HeroViewInteraction.LoadFirstPageOfHeroes)
             },
             assertion = {
                 val successValue = it[2] as ComponentState.Success<HeroListState>
@@ -97,7 +95,7 @@ class HeroViewModelTest : BaseViewModelTest() {
                 )
             },
             action = {
-                viewModel.interact(HeroViewInteraction.LoadNextPage)
+                viewModel.interact(HeroViewInteraction.LoadNextPageOfHeroes)
             },
             assertion = {
                 val successValue = it[2] as ComponentState.Success<HeroListState>
@@ -124,7 +122,7 @@ class HeroViewModelTest : BaseViewModelTest() {
                 )
             },
             action = {
-                viewModel.interact(HeroViewInteraction.LoadFirstPage)
+                viewModel.interact(HeroViewInteraction.LoadFirstPageOfHeroes)
             },
             assertion = {
                 val successValue = it[2] as ComponentState.Error
@@ -161,6 +159,41 @@ class HeroViewModelTest : BaseViewModelTest() {
                 it.assertAtPosition(0).isEqualTo(ComponentState.Initializing)
                 it.assertAtPosition(1).isEqualTo(ComponentState.Loading)
                 it.assertAtPosition(2).isExactlyInstanceOf(ComponentState.Success::class.java)
+
+                Assertions.assertThat(successValue.result).isEqualTo(expectationComics)
+            }
+        )
+    }
+
+    @Test
+    fun `should display next list of comics`() {
+        viewModel.comicHero.test(
+            scenario = {
+                whenever(loadComicsOfHeroCase.execute(expectedHero)).thenReturn(
+                    Result.Success(
+                        expectationComics
+                    )
+                )
+
+                whenever(loadNexPageComicsOfHeroCase.execute(expectedHero)).thenReturn(
+                    Result.Success(
+                        expectationComics
+                    )
+                )
+            },
+            action = {
+                viewModel.interact(HeroViewInteraction.LoadDetails(expectedHero))
+                viewModel.interact(HeroViewInteraction.LoadNextPageOfComics)
+            },
+            assertion = {
+                val successValue = it[4] as ComponentState.Success<List<Comic>>
+
+                it.assertCount(5)
+                it.assertAtPosition(0).isEqualTo(ComponentState.Initializing)
+                it.assertAtPosition(1).isEqualTo(ComponentState.Loading)
+                it.assertAtPosition(2).isExactlyInstanceOf(ComponentState.Success::class.java)
+                it.assertAtPosition(3).isEqualTo(ComponentState.Loading)
+                it.assertAtPosition(4).isExactlyInstanceOf(ComponentState.Success::class.java)
 
                 Assertions.assertThat(successValue.result).isEqualTo(expectationComics)
             }

@@ -31,10 +31,12 @@ class HeroRemoteDataSource(
         }
     }
 
-    override suspend fun loadComicsOfHero(hero: Hero): Data<List<Comic>> {
+    override suspend fun loadComicsOfHero(hero: Hero, pageOffset: Int, countOfItems: Int): Data<List<Comic>> {
         return marvelApiRequest {
             api.getComicsOfSpecificHero(
-                hero.id
+                characterId = hero.id,
+                offset = pageOffset,
+                limit = countOfItems
             )
         }.let { data ->
             Data(

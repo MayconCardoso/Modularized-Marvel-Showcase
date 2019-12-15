@@ -1,8 +1,8 @@
 package com.mctech.showcase.feature.heros.data.repository
 
 import com.mctech.showcase.feature.heros.data.datasource.HeroDataSource
+import com.mctech.showcase.feature.heros.domain.entity.Comic
 import com.mctech.showcase.feature.heros.domain.entity.Hero
-import com.mctech.showcase.feature.heros.domain.interactions.Result
 import com.mctech.testing.data_factory.TestDataFactory
 import com.mctech.showcase.library.networking.marvel.api.Data
 import com.nhaarman.mockitokotlin2.*
@@ -16,6 +16,9 @@ import org.junit.Test
 class HeroRepositoryTest{
     private val dataSource = mock<HeroDataSource>()
     private lateinit var repository: HeroRepository
+    private val hero = TestDataFactory.createHero(
+        id = 10
+    )
 
     @Before
     fun `before each test`() {
@@ -86,7 +89,7 @@ class HeroRepositoryTest{
     }
 
     @Test
-    fun `should load comics of hero`() = runBlockingTest {
+    fun `should load first page of comics`() = runBlockingTest {
         val expectedValue = TestDataFactory.createListOfComic()
         val expectedData  = Data(
             offset = 0,
@@ -96,14 +99,55 @@ class HeroRepositoryTest{
             results = expectedValue
         )
 
-        val hero = TestDataFactory.createHero(
-            id = 10
-        )
-
-        whenever(dataSource.loadComicsOfHero(hero)).thenReturn(expectedData)
+        whenever(dataSource.loadComicsOfHero(hero, 0)).thenReturn(expectedData)
 
         // Load first page to accumulate items.
-        repository.loadComicsOfHero(hero)
-        verify(dataSource).loadComicsOfHero(hero)
+        repository.loadFirstPageComicsOfHero(hero)
+        verify(dataSource).loadComicsOfHero(hero, 0)
+    }
+
+    @Test
+    fun `should load next page of comics`() = runBlockingTest {
+        val expectedValue = TestDataFactory.createListOfComic(30)
+        val expectedData  = Data(
+            offset = 0,
+            limit = 15,
+            total = 15,
+            count = 15,
+            results = expectedValue
+        )
+
+        whenever(dataSource.loadComicsOfHero(hero, 0)).thenReturn(expectedData)
+        whenever(dataSource.loadComicsOfHero(hero, 15)).thenReturn(expectedData)
+
+        // Load first page to accumulate items.
+        repository.loadFirstPageComicsOfHero(hero)
+        verify(dataSource).loadComicsOfHero(hero, 0, 15)
+
+        // Load next page.
+        repository.loadNextPageComicsOfHero(hero)
+        verify(dataSource).loadComicsOfHero(hero, 15, 15)
+    }
+
+    @Test
+    fun `should not load when all comics items have been loaded`() = runBlockingTest {
+        val expectedValue = listOf<Comic>()
+        val expectedData  = Data(
+            offset = 0,
+            limit = 0,
+            total = 0,
+            count = 0,
+            results = expectedValue
+        )
+
+        whenever(dataSource.loadComicsOfHero(hero, 0)).thenReturn(expectedData)
+
+        // Load first page to accumulate items.
+        repository.loadFirstPageComicsOfHero(hero)
+        verify(dataSource).loadComicsOfHero(hero, 0, 15)
+
+        // Load next page.
+        repository.loadNextPageComicsOfHero(hero)
+        verifyNoMoreInteractions(dataSource)
     }
 }

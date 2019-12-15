@@ -12,13 +12,13 @@ import org.junit.Before
 import org.junit.Test
 
 @ExperimentalCoroutinesApi
-class LoadFirstPageOfHeroesCaseTest{
+class LoadHeroesCaseTest{
     private val service = mock<HeroService>()
-    private lateinit var loadFirstPageOfHeroesCase: LoadFirstPageOfHeroesCase
+    private lateinit var loadHeroesCase: LoadHeroesCase
 
     @Before
     fun `before each test`() {
-        loadFirstPageOfHeroesCase = LoadFirstPageOfHeroesCase(service)
+        loadHeroesCase = LoadHeroesCase(service)
     }
 
     @Test
@@ -27,7 +27,7 @@ class LoadFirstPageOfHeroesCaseTest{
 
         whenever(service.loadFirstPageOfHeroes()).thenReturn(expectedValue)
 
-        val result = loadFirstPageOfHeroesCase.execute()
+        val result = loadHeroesCase.execute()
 
         Assertions.assertThat(result)
             .isExactlyInstanceOf(Result.Success::class.java)
@@ -56,7 +56,7 @@ class LoadFirstPageOfHeroesCaseTest{
         runBlockingTest {
             whenever(service.loadFirstPageOfHeroes()).thenThrow(exception)
 
-            val result = loadFirstPageOfHeroesCase.execute()
+            val result = loadHeroesCase.execute()
             val resultException = (result as Result.Failure).throwable
 
             Assertions.assertThat(result).isInstanceOf(Result.Failure::class.java)

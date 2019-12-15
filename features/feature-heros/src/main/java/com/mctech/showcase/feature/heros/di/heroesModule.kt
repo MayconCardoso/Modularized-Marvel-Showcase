@@ -10,9 +10,10 @@ import org.koin.dsl.module
 val heroesModule = module {
     viewModel {
         HeroViewModel(
-            loadFirstPageOfHeroesCase = get(),
+            loadHeroesCase = get(),
             loadNextPageOfHeroesCase = get(),
-            loadComicsOfHeroCase = get()
+            loadComicsOfHeroCase = get(),
+            loadNexPageComicsOfHeroCase = get()
         )
     }
 }
