@@ -13,5 +13,5 @@ suspend fun <DATA : Data<*>> marvelApiRequest(target: suspend () -> MarvelApiRes
         }
     } catch (ex: Throwable) {
         ex.printStackTrace()
-        throw NetworkException()
+        throw NetworkException
     }

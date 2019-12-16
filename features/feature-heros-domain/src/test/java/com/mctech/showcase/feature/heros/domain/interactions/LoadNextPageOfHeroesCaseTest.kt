@@ -2,6 +2,7 @@ package com.mctech.showcase.feature.heros.domain.interactions
 
 import com.mctech.testing.data_factory.TestDataFactory
 import com.mctech.showcase.feature.heros.domain.error.HeroError
+import com.mctech.showcase.feature.heros.domain.error.NetworkException
 import com.mctech.showcase.feature.heros.domain.service.HeroService
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.whenever
@@ -41,6 +42,14 @@ class LoadNextPageOfHeroesCaseTest{
         failureAssertion(
             exception = HeroError.UnknownQuotationException,
             expectedException = HeroError.UnknownQuotationException
+        )
+    }
+
+    @Test
+    fun `should return network exception`() = runBlockingTest {
+        failureAssertion(
+            exception = NetworkException,
+            expectedException = NetworkException
         )
     }
 
