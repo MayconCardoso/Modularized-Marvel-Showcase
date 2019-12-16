@@ -23,8 +23,9 @@ class LoadNextPageOfHeroesCaseTest{
     }
 
     @Test
-    fun `should return heros`() = runBlockingTest {
+    fun `should return heroes`() = runBlockingTest {
         val expectedValue = TestDataFactory.createListOfHeroes()
+        val expectedResult = Result.Success(expectedValue)
 
         whenever(service.loadNextPageOfHeroes()).thenReturn(expectedValue)
 
@@ -32,9 +33,7 @@ class LoadNextPageOfHeroesCaseTest{
 
         Assertions.assertThat(result)
             .isExactlyInstanceOf(Result.Success::class.java)
-            .isEqualTo(
-                Result.Success(expectedValue)
-            )
+            .isEqualTo(expectedResult)
     }
 
     @Test

@@ -29,6 +29,7 @@ class LoadComicsOfHeroCaseTest{
     @Test
     fun `should return comics`() = runBlockingTest {
         val expectedValue = TestDataFactory.createListOfComic()
+        val expectedResult = Result.Success(expectedValue)
 
         whenever(service.loadFirstPageComicsOfHero(hero)).thenReturn(expectedValue)
 
@@ -36,9 +37,7 @@ class LoadComicsOfHeroCaseTest{
 
         Assertions.assertThat(result)
             .isExactlyInstanceOf(Result.Success::class.java)
-            .isEqualTo(
-                Result.Success(expectedValue)
-            )
+            .isEqualTo(expectedResult)
     }
 
     @Test
