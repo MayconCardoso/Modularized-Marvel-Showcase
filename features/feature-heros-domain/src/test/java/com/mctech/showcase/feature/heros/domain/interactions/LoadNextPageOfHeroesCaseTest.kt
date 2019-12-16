@@ -5,6 +5,7 @@ import com.mctech.showcase.feature.heros.domain.error.HeroError
 import com.mctech.showcase.feature.heros.domain.error.NetworkException
 import com.mctech.showcase.feature.heros.domain.service.HeroService
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -34,6 +35,8 @@ class LoadNextPageOfHeroesCaseTest{
         Assertions.assertThat(result)
             .isExactlyInstanceOf(Result.Success::class.java)
             .isEqualTo(expectedResult)
+
+        verify(service).loadNextPageOfHeroes()
     }
 
     @Test
@@ -69,6 +72,8 @@ class LoadNextPageOfHeroesCaseTest{
 
             Assertions.assertThat(result).isInstanceOf(Result.Failure::class.java)
             Assertions.assertThat(resultException).isEqualTo(expectedException)
+
+            verify(service).loadNextPageOfHeroes()
         }
 
 }
