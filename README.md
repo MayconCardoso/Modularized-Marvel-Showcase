@@ -15,6 +15,9 @@ In order to avoid writing architecture boilerplate I have used one of my persona
 publicKey = "YOUR_PUBLIC_KEY"
 privateKey = "YOUR_PRIVATE_KEY"
 ```
+
+## Demo
+
 <img src="./.art/with_internet.gif" alt="with-internet" width="200px"/> <img src="./.art/without_connection.gif" alt="withou-internet" width="200px"/>
 
 # Libraries
