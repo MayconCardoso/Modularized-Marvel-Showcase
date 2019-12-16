@@ -16,6 +16,10 @@ publicKey = "YOUR_PUBLIC_KEY"
 privateKey = "YOUR_PRIVATE_KEY"
 ```
 
+## Demo
+
+<img src="./.art/with_internet.gif" alt="with-internet" width="200px"/> <img src="./.art/without_connection.gif" alt="withou-internet" width="200px"/>
+
 # Libraries
 
 Here you can check out the [dependencies file.](https://github.com/MayconCardoso/Modularized-Marvel-Showcase/blob/master/build-dependencies.gradle) But basically these are the libraries used in this example:
